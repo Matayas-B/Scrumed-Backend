@@ -1,69 +1,49 @@
 var express = require('express');
 var router = express.Router();
-
-var scrumMeetings = [
-  {
-    "id": 1,
-    "meetingTitle": "test",
-    "totalTime": new Date(2019, 1, 15, 0, 11, 0),
-    "minutesPerGuest": 10,
-    "guests": []
-  }
-]
+var scrumRepo = require('../repositories/scrum_repository');
 
 router.get('/', function (req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.send(JSON.stringify(scrumMeetings));
+  res.send(JSON.stringify(scrumRepo.getScrums()));
 });
 
 router.get('/delete-scrums', function (req, res) {
-  scrumMeetings = []
-
+  scrumRepo.deleteScrums();
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.sendStatus(200);
 });
 
 router.get('/delete-scrum', function (req, res) {
   var query = req.query;
-  
-  var indexToRemove = scrumMeetings.findIndex(scr => scr.id === parseInt(query.id))
 
-  if(indexToRemove !== -1) {
-    scrumMeetings.splice(indexToRemove)
-    res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  try {
+    scrumRepo.deleteScrum(parseInt(query.id));
     res.sendStatus(200);
-  }
-  else {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.send("The scrum does not exist.");
+  } catch (error) {
+    res.send(error.message);
   }
 });
 
 router.post('/create-scrum', function (request, response) {
   var scrum = request.body;
-
-  var currentScrum = {
-    "id": scrumMeetings.length,
-    "meetingTitle": scrum.meetingTitle,
-    "totalTime": new Date(2019, 1, 15, 0, 11, 0),
-    "minutesPerGuest": scrum.minutesPerGuest,
-    "guests": scrum.guests
-  }
-  scrumMeetings.push(currentScrum);
+  var newScrumId = scrumRepo.createScrum(scrum);
 
   response.setHeader('Access-Control-Allow-Origin', '*');
   response.setHeader('Access-Control-Allow-Methods', 'POST,GET,PUT,DELETE');
-  response.send(JSON.stringify(currentScrum.id));
+  response.send(JSON.stringify(newScrumId));
 });
 
 router.get('/get-scrum', function (request, response) {
   var query = request.query;
 
-  var currentScrum = scrumMeetings.find(scr => scr.id === parseInt(query.id));
-
   response.setHeader('Access-Control-Allow-Origin', '*');
-  response.setHeader('Access-Control-Allow-Methods', 'POST,GET,PUT,DELETE');
-  response.send(JSON.stringify(currentScrum));
+  try {
+    var currentScrum = scrumRepo.getScrum(parseInt(query.id));
+    response.send(JSON.stringify(currentScrum));
+  } catch (error) {
+    response.send(error.message);
+  }
 });
 
 module.exports = router;
