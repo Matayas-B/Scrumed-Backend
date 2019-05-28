@@ -2,11 +2,37 @@ var scrumRepo = {};
 
 var scrumMeetings = [
     {
-        "id": 2,
-        "meetingTitle": "REPOSITORY TEST",
+        "id": 0,
+        "meetingTitle": "TEST SCRUM",
         "totalTime": new Date(2019, 1, 15, 0, 11, 0),
-        "minutesPerGuest": 10,
-        "guests": []
+        "minutesPerGuest": 1,
+        "guests": [
+            {
+                "participantName": "Matayas",
+                "participantTurn": 1,
+                "isActiveParticipant": true
+            },
+            {
+                "participantName": "Lucho",
+                "participantTurn": 2,
+                "isActiveParticipant": false
+            },
+            {
+                "participantName": "Lucas",
+                "participantTurn": 3,
+                "isActiveParticipant": false
+            },
+            {
+                "participantName": "Laychu",
+                "participantTurn": 4,
+                "isActiveParticipant": false
+            },
+            {
+                "participantName": "Fede",
+                "participantTurn": 5,
+                "isActiveParticipant": false
+            }
+        ]
     }
 ]
 
