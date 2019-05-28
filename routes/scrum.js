@@ -1,48 +1,47 @@
 var express = require('express');
 var router = express.Router();
 var scrumRepo = require('../repositories/scrum_repository');
+var scrumValidator = require('../validators/scrum_validator');
 
-router.get('/', function (req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.send(JSON.stringify(scrumRepo.getScrums()));
+router.get('/', function (request, response) {
+  response.send(JSON.stringify(scrumRepo.getScrums()));
 });
 
-router.get('/delete-scrums', function (req, res) {
+router.get('/delete-scrums', function (request, response) {
   scrumRepo.deleteScrums();
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.sendStatus(200);
+  response.sendStatus(200);
 });
 
-router.get('/delete-scrum', function (req, res) {
-  var query = req.query;
+router.get('/delete-scrum', function (request, response) {
+  var query = request.query;
 
-  res.setHeader('Access-Control-Allow-Origin', '*');
   try {
     scrumRepo.deleteScrum(parseInt(query.id));
-    res.sendStatus(200);
+    response.sendStatus(200);
   } catch (error) {
-    res.send(error.message);
+    response.send(error.message);
   }
 });
 
-router.post('/create-scrum', function (request, response) {
-  var scrum = request.body;
-  var newScrumId = scrumRepo.createScrum(scrum);
+router.post('/create-scrum', function (requestuest, response) {
+  var scrum = requestuest.body;
 
-  response.setHeader('Access-Control-Allow-Origin', '*');
-  response.setHeader('Access-Control-Allow-Methods', 'POST,GET,PUT,DELETE');
+  if (!scrumValidator.isValid(scrum)) {
+    response.send("This is not a valid Scrum.");
+  }
+
+  var newScrumId = scrumRepo.createScrum(scrum);
   response.send(JSON.stringify(newScrumId));
 });
 
-router.get('/get-scrum', function (request, response) {
-  var query = request.query;
+router.get('/get-scrum', function (requestuest, responseponse) {
+  var query = requestuest.query;
 
-  response.setHeader('Access-Control-Allow-Origin', '*');
   try {
     var currentScrum = scrumRepo.getScrum(parseInt(query.id));
-    response.send(JSON.stringify(currentScrum));
+    responseponse.send(JSON.stringify(currentScrum));
   } catch (error) {
-    response.send(error.message);
+    responseponse.send(error.message);
   }
 });
 

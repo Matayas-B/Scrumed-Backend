@@ -1,13 +1,13 @@
 var scrumRepo = {};
 
 var scrumMeetings = [
-    // {
-    //     "id": 2,
-    //     "meetingTitle": "REPOSITORY TEST",
-    //     "totalTime": new Date(2019, 1, 15, 0, 11, 0),
-    //     "minutesPerGuest": 10,
-    //     "guests": []
-    // }
+    {
+        "id": 2,
+        "meetingTitle": "REPOSITORY TEST",
+        "totalTime": new Date(2019, 1, 15, 0, 11, 0),
+        "minutesPerGuest": 10,
+        "guests": []
+    }
 ]
 
 scrumRepo.getScrums = function () {
@@ -35,10 +35,10 @@ scrumRepo.deleteScrum = function (id) {
     }
     scrumMeetings.splice(indexToRemove, 1);
 }
- 
+
 scrumRepo.createScrum = function (scrumBody) {
     var newScrum = {
-        "id": scrumMeetings.length,
+        "id": findNextId(),
         "meetingTitle": scrumBody.meetingTitle,
         "totalTime": new Date(2019, 1, 15, 0, 11, 0),
         "minutesPerGuest": scrumBody.minutesPerGuest,
@@ -47,6 +47,13 @@ scrumRepo.createScrum = function (scrumBody) {
     scrumMeetings.push(newScrum);
 
     return newScrum.id;
+}
+
+/*
+    Aux Functions
+*/
+findNextId = function () {
+    return Math.max(...scrumMeetings.map(scrum => scrum.id)) + 1
 }
 
 module.exports = scrumRepo;
