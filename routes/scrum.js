@@ -27,7 +27,7 @@ router.post('/create-scrum', function (requestuest, response) {
   var scrum = requestuest.body;
 
   if (!scrumValidator.isValid(scrum)) {
-    response.send("This is not a valid Scrum.");
+    return response.send("This is not a valid Scrum.");
   }
 
   var newScrumId = scrumRepo.createScrum(scrum);
