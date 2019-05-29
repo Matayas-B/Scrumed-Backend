@@ -4,7 +4,7 @@ var scrumMeetings = [
     {
         "id": 0,
         "meetingTitle": "TEST SCRUM",
-        "totalTime": new Date(2019, 1, 15, 0, 11, 0),
+        "totalTime": 5,
         "minutesPerGuest": 1,
         "guests": [
             {
@@ -66,7 +66,7 @@ scrumRepo.createScrum = function (scrumBody) {
     var newScrum = {
         "id": findNextId(),
         "meetingTitle": scrumBody.meetingTitle,
-        "totalTime": new Date(2019, 1, 15, 0, 11, 0),
+        "totalTime": parseInt(scrumBody.minutesPerGuest) * scrumBody.guests.length,
         "minutesPerGuest": scrumBody.minutesPerGuest,
         "guests": scrumBody.guests
     }
