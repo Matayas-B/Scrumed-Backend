@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('scrum-timer-backend:server');
 var http = require('http');
+var socketIO = require('socket.io');
 
 /**
  * Get port from environment and store in Express.
@@ -20,6 +21,8 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+io = socketIO.listen(server);
+require('../sockets/base')(io);
 
 /**
  * Listen on provided port, on all network interfaces.
