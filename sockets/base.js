@@ -3,7 +3,6 @@ module.exports = function (io) {
         console.log('Participant entered scrum!');
 
         socket.on('startScrum', function (data) {
-            console.log(data);
             io.sockets.emit('scrumStarted', {
                 scrumId: data.scrumId
             })
@@ -13,9 +12,10 @@ module.exports = function (io) {
         })
 
         socket.on('pauseScrum', function(data) {
-            console.log(data)
             io.sockets.emit('scrumPaused', {
-                isPaused: data.isPaused
+                isPaused: data.isPaused,
+                minutes: data.minutes,
+                seconds: data.seconds
             })
         })
 
