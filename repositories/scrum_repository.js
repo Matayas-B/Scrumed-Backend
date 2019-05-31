@@ -6,6 +6,7 @@ var scrumMeetings = [
         "meetingTitle": "TEST SCRUM",
         "totalTime": 5,
         "minutesPerGuest": 1,
+        "isCountdown": true,
         "guests": [
             {
                 "participantName": "Matayas",
@@ -68,6 +69,7 @@ scrumRepo.createScrum = function (scrumBody) {
         "meetingTitle": scrumBody.meetingTitle,
         "totalTime": parseInt(scrumBody.minutesPerGuest) * scrumBody.guests.length,
         "minutesPerGuest": scrumBody.minutesPerGuest,
+        "isCountdown": scrumBody.isCountdown,
         "guests": scrumBody.guests
     }
     scrumMeetings.push(newScrum);
