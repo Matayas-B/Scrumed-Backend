@@ -1,8 +1,10 @@
+var crypto = require('crypto');
+
 var scrumRepo = {};
 
 var scrumMeetings = [
     {
-        "id": 0,
+        "id": "e4f69194262e1690d6fcc956d4f1c3ff",
         "meetingTitle": "TEST SCRUM",
         "totalTime": 5,
         "minutesPerGuest": 1,
@@ -65,7 +67,7 @@ scrumRepo.deleteScrum = function (id) {
 
 scrumRepo.createScrum = function (scrumBody) {
     var newScrum = {
-        "id": findNextId(),
+        "id": crypto.createHash('md5').update(scrumBody.meetingTitle + scrumMeetings.length).digest('hex'),
         "meetingTitle": scrumBody.meetingTitle,
         "totalTime": parseInt(scrumBody.minutesPerGuest) * scrumBody.guests.length,
         "minutesPerGuest": scrumBody.minutesPerGuest,
@@ -75,13 +77,6 @@ scrumRepo.createScrum = function (scrumBody) {
     scrumMeetings.push(newScrum);
 
     return newScrum.id;
-}
-
-/*
-    Aux Functions
-*/
-findNextId = function () {
-    return Math.max(...scrumMeetings.map(scrum => scrum.id)) + 1
 }
 
 module.exports = scrumRepo;
