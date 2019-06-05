@@ -9,6 +9,7 @@ var scrumMeetings = [
         "totalTime": 5,
         "minutesPerGuest": 1,
         "isCountdown": true,
+        "started": false,
         "guests": [
             {
                 "participantName": "Matayas",
@@ -72,11 +73,28 @@ scrumRepo.createScrum = function (scrumBody) {
         "totalTime": parseInt(scrumBody.minutesPerGuest) * scrumBody.guests.length,
         "minutesPerGuest": scrumBody.minutesPerGuest,
         "isCountdown": scrumBody.isCountdown,
+        "started": false,
         "guests": scrumBody.guests
     }
     scrumMeetings.push(newScrum);
 
     return newScrum.id;
+}
+
+scrumRepo.initializeScrum = function (scrumId) {
+    var scrumIndex = scrumMeetings.findIndex(scr => scr.id === scrumId);
+    scrumMeetings[scrumIndex].started = true;
+}
+
+scrumRepo.changeActiveGuestTurn = function (scrumId) {
+    var scrum = scrumMeetings[scrumMeetings.findIndex(scr => scr.id === scrumId)];
+    var activeGuestIndex = scrum.guests.findIndex(guest => guest.isActiveParticipant);
+
+    scrum.guests[activeGuestIndex].isActiveParticipant = false;
+    if ((activeGuestIndex + 1) < scrum.guests.length)
+        scrum.guests[activeGuestIndex + 1].isActiveParticipant = true;
+    
+    return scrum.guests[activeGuestIndex + 1];
 }
 
 module.exports = scrumRepo;
