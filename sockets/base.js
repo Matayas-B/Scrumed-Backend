@@ -4,7 +4,7 @@ module.exports = function (io) {
     io.on('connection', (socket) => {
         console.log('Participant entered scrum!');
 
-        socket.on('changeActiveGuestTurn', function(scrumId) {
+        socket.on('changeActiveGuestTurn', function (scrumId) {
             var nextGuest = scrumRepo.changeActiveGuestTurn(scrumId);
 
             io.sockets.emit('nextGuestChanged', {
@@ -14,7 +14,7 @@ module.exports = function (io) {
             })
         });
 
-        socket.on('changeScrumState', function (data) {
+        socket.on('getScrumState', function (data) {
             // TODO: DO THIS when the scrum starts, first time only.
             scrumRepo.initializeScrum(data.scrumId);
 
@@ -26,7 +26,7 @@ module.exports = function (io) {
         })
 
         socket.on('getUpdatedScrumState', function (scrumId) {
-            socket.emit('updatedScrumState', { test: "only for the caller " + scrumId });
+            socket.broadcast.emit('shareCurrentScrumState', scrumId);
         });
 
         socket.on('disconnect', () => {
