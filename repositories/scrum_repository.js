@@ -37,6 +37,26 @@ var scrumMeetings = [
                 "isActiveParticipant": false
             }
         ]
+    },
+    {
+        "id": "sd34fd1w43262e2320d6fc5555555222222",
+        "meetingTitle": "TEST SCRUM II",
+        "totalTime": 3,
+        "minutesPerGuest": 1,
+        "isCountdown": true,
+        "started": false,
+        "guests": [
+            {
+                "participantName": "Matayas",
+                "participantTurn": 1,
+                "isActiveParticipant": true
+            },
+            {
+                "participantName": "Lucho",
+                "participantTurn": 2,
+                "isActiveParticipant": false
+            }
+        ]
     }
 ]
 

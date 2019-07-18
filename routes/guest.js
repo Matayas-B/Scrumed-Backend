@@ -14,9 +14,6 @@ router.post('/add-guest', function (request, response, next) {
     turn: (Math.max.apply(Math, guestList.map(function (guest) { return guest.turn })) + 1),
     isActive: guestList.length > 0 ? false : true
   });
-
-  response.setHeader('Access-Control-Allow-Origin', '*');
-  response.setHeader('Access-Control-Allow-Methods', 'POST,GET,PUT,DELETE');
   response.send(JSON.stringify(guestList));
 });
 
